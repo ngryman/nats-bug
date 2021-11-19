@@ -7,6 +7,6 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.45"
-async-nats = "0.10.1"
 async-std = { version = "1.10.0", features = ["attributes"] }
+nats = "0.16.0"
 nats_test_server = "0.3.0"

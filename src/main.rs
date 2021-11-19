@@ -1,5 +1,5 @@
 use anyhow::Result;
-use async_nats::Subscription;
+use nats::asynk::Subscription;
 use nats_test_server::NatsTestServer;
 
 mod test {
@@ -9,11 +9,11 @@ mod test {
     let nats = NatsTestServer::build().spawn();
 
     // Subscribe
-    let nc = async_nats::connect(&nats.address().to_string()).await?;
+    let nc = nats::asynk::connect(&nats.address().to_string()).await?;
     let sub = nc.subscribe("test").await?;
 
     // Publish
-    let nc = async_nats::connect(&nats.address().to_string()).await?;
+    let nc = nats::asynk::connect(&nats.address().to_string()).await?;
     nc.publish("test", "foo").await?;
 
     // Assert
@@ -30,7 +30,7 @@ mod test {
     let sub = timeout::subscribe(&nats.address().to_string(), "test").await?;
 
     // Publish
-    let nc = async_nats::connect(&nats.address().to_string()).await?;
+    let nc = nats::asynk::connect(&nats.address().to_string()).await?;
     nc.publish("test", "foo").await?;
 
     // Assert
@@ -44,7 +44,7 @@ mod test {
     use super::*;
 
     pub(super) async fn subscribe(addr: &str, subject: &str) -> Result<Subscription> {
-      let nc = async_nats::connect(addr).await?;
+      let nc = nats::asynk::connect(addr).await?;
       let sub = nc.subscribe(subject).await?;
       Ok(sub)
     }
